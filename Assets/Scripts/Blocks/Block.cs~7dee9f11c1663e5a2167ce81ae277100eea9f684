@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Block : MonoBehaviour
+{
+    public int hitRemain  = 1;
+    [SerializeField] List<Material> mat_hit;
+
+    private Renderer renderer;
+
+    private void Start()
+    {
+        renderer = gameObject.GetComponent<Renderer>();
+    }
+
+    public void OnHit()
+    {
+        hitRemain -= 1;
+        
+        CheckDestory();
+        changeMaterial();
+    }
+
+    private void changeMaterial()
+    {
+        renderer.material = mat_hit[hitRemain-1];
+    }
+
+    private void CheckDestory()
+    {
+        if (hitRemain <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+}

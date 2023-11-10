@@ -1,0 +1,39 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager instance;
+    [SerializeField] private GameObject BlockContainer;
+    [SerializeField] private float SpawnSpeedRange;
+    [SerializeField] private List<GameObject> blocks;
+    [SerializeField] private GameObject block;
+
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+        StartCoroutine(SpawnBlockCoroutine());
+    }
+
+    IEnumerator SpawnBlockCoroutine()
+    {
+        while (true)
+        {
+            //Debug.Log(blocks.Count);
+            block = Instantiate(blocks[UnityEngine.Random.Range(0, blocks.Count)], new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0), Quaternion.identity, BlockContainer.transform);
+            block.GetComponent<Rigidbody>().velocity = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0).normalized * SpawnSpeedRange;
+            //Debug.Log("Spawn,"+block+" "+block.GetComponent<Rigidbody>().velocity);
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+}
