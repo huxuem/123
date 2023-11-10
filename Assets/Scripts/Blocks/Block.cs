@@ -13,11 +13,13 @@ public class Block : MonoBehaviour
     protected virtual void Start()
     {
         renderer = gameObject.GetComponent<Renderer>();
+        Debug.Log("Start,:" + hitRemain);
     }
 
 
     public virtual void OnHit()
     {
+        Debug.Log("HitRemain Before:" + hitRemain);
         hitRemain -= 1;
 
 
@@ -30,9 +32,8 @@ public class Block : MonoBehaviour
         renderer.material = mat_hit[hitRemain-1]; 
     }
 
-    protected void CheckDestory()
+    protected virtual void CheckDestory()
     {
-        Debug.Log("Destory");
         if (hitRemain <= 0)
         {
             Destroy(gameObject);

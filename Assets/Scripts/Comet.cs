@@ -262,11 +262,11 @@ public class Comet : MonoBehaviour
     {
         if (CurSpeedLevel() == 1)
         {
-            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.3f);
+            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.5f);
         }
         else if(CurSpeedLevel() == 2)
         {
-            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.1f);
+            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.3f);
         }
         //switch(CurSpeedLevel())
         //{

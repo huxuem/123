@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 4207761411970254210}
   - component: {fileID: 4834565257312165897}
   - component: {fileID: 4050290078499667596}
-  - component: {fileID: 807093262926282572}
-  - component: {fileID: 8169408597651400687}
+  - component: {fileID: 3201832642168714091}
+  - component: {fileID: 6417793927885755819}
   - component: {fileID: -7310885994603721358}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Block
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6494110758381970388}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &4050290078499667596
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -86,8 +86,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &807093262926282572
-BoxCollider:
+--- !u!135 &3201832642168714091
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,9 +105,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8169408597651400687
+--- !u!114 &6417793927885755819
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,13 +116,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6494110758381970388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72e6f623a4e69de4daf5671aa7d10e6e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5018ad045bddbaa40a8c6324b09cfc1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitRemain: 3
+  hitRemain: 7
   mat_hit:
-  - {fileID: 2100000, guid: a84f54aea69c435499fbdc4fc8b711a1, type: 2}
+  - {fileID: 2100000, guid: f67098272f044a64b85a7fe91af1be1a, type: 2}
   - {fileID: 2100000, guid: d3a8e55ab0a808b48a43eaf043063a9d, type: 2}
+  - {fileID: 2100000, guid: f67098272f044a64b85a7fe91af1be1a, type: 2}
+  - {fileID: 2100000, guid: d3a8e55ab0a808b48a43eaf043063a9d, type: 2}
+  - {fileID: 2100000, guid: f67098272f044a64b85a7fe91af1be1a, type: 2}
+  - {fileID: 2100000, guid: d3a8e55ab0a808b48a43eaf043063a9d, type: 2}
+  Force: 0.3
 --- !u!54 &-7310885994603721358
 Rigidbody:
   m_ObjectHideFlags: 0
