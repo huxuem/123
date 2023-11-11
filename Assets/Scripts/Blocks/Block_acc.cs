@@ -9,6 +9,7 @@ public class Block_acc : MonoBehaviour
         if (other.gameObject.CompareTag("Comet"))
         {
             //Debug.Log("Acc");
+            AudioManager.instance.HitAccAudio();
             other.transform.GetComponent<Comet>().Item_Acc();
             Destroy(gameObject);
         }

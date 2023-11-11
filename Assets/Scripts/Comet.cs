@@ -92,7 +92,7 @@ public class Comet : MonoBehaviour
                 }
 
                 TmpVelocity = CurVelocity.magnitude * Vector3.Cross(dir, new Vector3(0, 0, 1)).normalized;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross( dir, new Vector3(0, 0, 1))), RocketRotateSpeed * Time.deltaTime);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross( dir, new Vector3(0, 0, 1))), RocketRotateSpeed * Time.deltaTime);
 
             }
         }
@@ -112,9 +112,9 @@ public class Comet : MonoBehaviour
             //当方块被击中时，通过检测彗星的速度来判断是否会被击穿/反弹，并直接更改彗星的速度
             CurVelocity = new Vector3(CurVelocity.x, CurVelocity.y, 0);
             transform.Translate(CurVelocity * Time.deltaTime, Space.World);
-            if(CurVelocity.magnitude > 0) { 
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CurVelocity), RocketRotateSpeed * Time.deltaTime); 
-            }
+            //if(CurVelocity.magnitude > 0) { 
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(CurVelocity), RocketRotateSpeed * Time.deltaTime); 
+            //}
         }
 
 
@@ -163,6 +163,7 @@ public class Comet : MonoBehaviour
         //Debug.Log("Enter");
         if (collision.gameObject.CompareTag("Block") || collision.gameObject.CompareTag("Boss"))
         {
+
             bool isBoss = false;
             Block block = collision.gameObject.GetComponent<Block>();
             Boss boss = null;
@@ -178,22 +179,21 @@ public class Comet : MonoBehaviour
                     if (isBoss)
                     {
                         boss.OnHit(CurVelocity);
+                        AudioManager.instance.HitBossAudio();
                         CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
                     }
                     else
                     {
+                        block.OnHit();
+                        AudioManager.instance.HitBlockAudio();
                         if (block.IsStatic)
                         {
                             CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
                         }
-                        block.OnHit();
                     }
-                    //if (block != null)
-                    //{
-                    //    //做反射运算，得到反射后的选择向量。OnHit可能要写在后面，要不getcontact已经没了
-                    //    CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
-                    //}
-                    //else Debug.Log("Error");
+
+                    //播放音频
+
                     break;
 
 
@@ -204,8 +204,19 @@ public class Comet : MonoBehaviour
                     if (isBoss)
                     {
                         boss.OnHit(CurVelocity);
+                        if (boss != null)
+                        {
+                            AudioManager.instance.HitBossAudio();
+                        }
+                        else AudioManager.instance.DefeatBossAudio();
                     }
-                    else block.OnHit();
+                    else 
+                    {
+                        block.OnHit();
+                        //播放音频
+                        AudioManager.instance.HitBlockAudio();
+                    } 
+
 
                     break;
 
@@ -215,6 +226,7 @@ public class Comet : MonoBehaviour
                     //当速度为第0档时，方块耐久不变化，反弹
                     //做反射运算，得到反射后的选择向量
                     CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
+                    //为0时不触发声音
 
                     break;
 
@@ -228,6 +240,8 @@ public class Comet : MonoBehaviour
             //Wall有速度衰减
             //Debug.Log("HitWall");
             CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal)/ 1.1f;
+
+            AudioManager.instance.HitWallAudio();
         }
         else
         {

@@ -23,7 +23,10 @@ public class Boss : Block
         rb.velocity = Velocity * Force;
 
         CheckDestory();
-        changeMaterial();
+        if (hitRemain > 0)
+        {
+            changeMaterial();
+        }
     }
 
     protected override void CheckDestory()

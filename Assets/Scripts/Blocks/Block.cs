@@ -34,13 +34,13 @@ public class Block : MonoBehaviour
 
     protected void changeMaterial()
     {
-        Debug.Log("HitRemain:" + hitRemain+", name:"+transform.gameObject.GetInstanceID());
+        //Debug.Log("HitRemain:" + hitRemain+", name:"+transform.gameObject.GetInstanceID());
         renderer.material = mat_hit[hitRemain-1]; 
     }
 
     protected virtual void CheckDestory()
     {
-        Debug.Log("Destory,id:"+ transform.gameObject.GetInstanceID());
+        //Debug.Log("Destory,id:"+ transform.gameObject.GetInstanceID());
         if (hitRemain <= 0)
         {
             Destroy(gameObject);

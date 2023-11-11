@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int SpawnCD;
     [SerializeField] private GameObject WallParent;
     [SerializeField] private GameObject Block_Wall;
-    [SerializeField] private List<List<List<int>>> BlockPos = new List<List<List<int>>>();
+    //[SerializeField] private List<List<List<int>>> BlockPos = new List<List<List<int>>>();
+    [SerializeField] private BlockofLevel BlockofLevel;
 
     private bool isStage1 = false;
 
@@ -32,36 +33,37 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //把初始化硬写在这里
-        InitPos();
-        //SpawnBlockPos();
+        //InitPos();
+        SpawnBlockPos();
         StartCoroutine(SpawnBlockCoroutine());
-        StartCoroutine(SpawnWallCoroutine());
+        //StartCoroutine(SpawnWallCoroutine());
     }
 
-    private void InitPos()
-    {
-        //要加的时候需要先小后大
-        BlockPos.Add(new List<List<int>>
-            {
-                new List<int> {-6,6},
-                new List<int> {6,6}
-            });
-        BlockPos.Add(new List<List<int>>
-            {
-                new List<int> {-6,-6},
-                new List<int> {6,-6}
-            });
-        BlockPos.Add(new List<List<int>>
-            {
-                new List<int> {-6,-5},
-                new List<int> {-6,5}
-            });
-        BlockPos.Add(new List<List<int>>
-            {
-                new List<int> {6,-5},
-                new List<int> {6,5}
-            });
-    }
+    //private void InitPos()
+    //{
+    //    //要加的时候需要先小后大
+    //    //BlockPos.Add(new List<List<int>>
+    //    //    {
+    //    //        new List<int> {-6,6},
+    //    //        new List<int> {6,6}
+    //    //    });
+    //    //BlockPos.Add(new List<List<int>>
+    //    //    {
+    //    //        new List<int> {-6,-6},
+    //    //        new List<int> {6,-6}
+    //    //    });
+    //    BlockPos.Add(new List<List<int>>
+    //        {
+    //            new List<int> {-6,-5},
+    //            new List<int> {-6,5
+    //            }
+    //        });
+    //    BlockPos.Add(new List<List<int>>
+    //        {
+    //            new List<int> {6,-5},
+    //            new List<int> {6,5}
+    //        });
+    //}
 
     IEnumerator SpawnWallCoroutine()
     {
@@ -81,14 +83,14 @@ public class GameManager : MonoBehaviour
         }
 
 
-        Debug.Log("Count:"+BlockPos.Count);
-        for (int i = 0; i < BlockPos.Count; i++)
+        Debug.Log("Count:"+BlockofLevel.BlockPos.Count);
+        for (int i = 0; i < BlockofLevel.BlockPos.Count; i++)
         {
             //遍历整个BlockPos列表，然后以[2,2]作为开始点和结束点坐标进行填充
-            for (int j = BlockPos[i][0][0]; j <= BlockPos[i][1][0]; j++)
+            for (int j = BlockofLevel.BlockPos[i][0][0]; j <= BlockofLevel.BlockPos[i][1][0]; j++)
             {
                 //遍历blockpos第i个元素的x
-                for(int k = BlockPos[i][0][1]; k <= BlockPos[i][1][1]; k++)
+                for(int k = BlockofLevel.BlockPos[i][0][1]; k <= BlockofLevel.BlockPos[i][1][1]; k++)
                 {
                     //Debug.Log("Pos:" + j + " "+k);
                     //遍历y
@@ -128,7 +130,9 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             //先改成专门加加速块的
+            //block = Instantiate(blocks[UnityEngine.Random.Range(0,blocks.Count)], Vector3.zero, Quaternion.identity, BlockContainer.transform);
             block = Instantiate(blocks[0], Vector3.zero, Quaternion.identity, BlockContainer.transform);
+
             block.GetComponent<Rigidbody>().velocity = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0).normalized * SpawnSpeedRange;
             //Debug.Log("Spawn,"+block+" "+block.GetComponent<Rigidbody>().velocity);
             yield return new WaitForSeconds(10f);
