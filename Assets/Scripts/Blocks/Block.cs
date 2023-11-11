@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    public bool IsStatic;
+
     [SerializeField]protected int hitRemain  = 2;
     [SerializeField] List<Material> mat_hit;
 
@@ -19,21 +21,26 @@ public class Block : MonoBehaviour
 
     public virtual void OnHit()
     {
-        Debug.Log("HitRemain Before:" + hitRemain);
         hitRemain -= 1;
 
 
         CheckDestory();
-        changeMaterial();
+
+        if(hitRemain > 0)
+        {
+            changeMaterial();
+        }
     }
 
     protected void changeMaterial()
     {
+        Debug.Log("HitRemain:" + hitRemain+", name:"+transform.gameObject.GetInstanceID());
         renderer.material = mat_hit[hitRemain-1]; 
     }
 
     protected virtual void CheckDestory()
     {
+        Debug.Log("Destory,id:"+ transform.gameObject.GetInstanceID());
         if (hitRemain <= 0)
         {
             Destroy(gameObject);

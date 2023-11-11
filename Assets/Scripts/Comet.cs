@@ -180,7 +180,14 @@ public class Comet : MonoBehaviour
                         boss.OnHit(CurVelocity);
                         CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
                     }
-                    else block.OnHit();
+                    else
+                    {
+                        if (block.IsStatic)
+                        {
+                            CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
+                        }
+                        block.OnHit();
+                    }
                     //if (block != null)
                     //{
                     //    //做反射运算，得到反射后的选择向量。OnHit可能要写在后面，要不getcontact已经没了
