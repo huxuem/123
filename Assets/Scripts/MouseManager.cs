@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class MouseManager : MonoBehaviour
 {
     public static MouseManager instance;
+    public LayerMask mask;
 
     public List<GameObject> PlanetList;
 
@@ -43,7 +44,7 @@ public class MouseManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hitInfo))
+            if (Physics.Raycast(ray, out hitInfo,Mathf.Infinity, mask))
             {
                 if (hitInfo.collider.gameObject.CompareTag("PlanetClickArea") && !IsClicked)
                 {

@@ -22,23 +22,55 @@ public class Comet : MonoBehaviour
 
     private Vector3 moveDir;
     private Vector3 TmpVelocity;
-    private Planet curTarget;
+    [SerializeField]private Planet curTarget;
     private Rigidbody rb;
     private bool hasTarget = false;
     private bool isRotating = false;
+    private bool isTeleport = false;
+
+
+    public void Teleport(Vector3 pos, Vector3 velocity,bool isHorizontal)
+    {
+        Debug.Log("pos:" + pos + ", velocity;" + velocity+", self:"+this);
+        transform.position= pos;
+        CurVelocity = velocity;
+        StartCoroutine(TeleportCoroutine(isHorizontal));
+    }
+
+    IEnumerator TeleportCoroutine(bool isHorizontal)
+    {
+        curTarget = null;
+        //InitPlanetList();
+        if (isHorizontal)
+        {
+            transform.position = new Vector3(transform.position.x * -1, transform.position.y, 0f);
+        }
+
+        else transform.position = new Vector3(transform.position.x, transform.position.y * -1, 0f);
+
+        isTeleport = true;
+        yield return new WaitForSeconds(0.4f);
+        isTeleport = false;
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
+        InitPlanetList();
+
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void InitPlanetList()
+    {
+       // Debug.Log("MouseManager:"+MouseManager.instance);
         foreach (GameObject planet in MouseManager.instance.PlanetList)
         {
-            //Debug.Log(planet);
+            //Debug.Log("Planet:"+planet);
             planet.GetComponent<Planet>().E_PlanetClick += PullToPlanet;
             planet.GetComponent<Planet>().E_PlanetRelease += RealseFromPlanet;
         }
-
-        rb = GetComponent<Rigidbody>();
-
     }
 
     // Update is called once per frame
@@ -144,8 +176,16 @@ public class Comet : MonoBehaviour
 
     private void SetTrail(bool isAct_1, bool isAct_2)
     {
-        trail_1.SetActive(isAct_1);
-        trail_2.SetActive(isAct_2);
+        if (!isTeleport)
+        {
+            trail_1.SetActive(isAct_1);
+            trail_2.SetActive(isAct_2);
+        }
+        else
+        {
+            trail_1.SetActive(false);
+            trail_2.SetActive(false);
+        }
     }
 
     #region 给方块调用
@@ -253,6 +293,7 @@ public class Comet : MonoBehaviour
 
             AudioManager.instance.HitWallAudio();
         }
+        else if (collision.gameObject.CompareTag("Acc")){}
         else
         {
             //做反射运算，得到反射后的选择向量

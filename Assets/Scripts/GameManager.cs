@@ -8,19 +8,23 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [SerializeField] private GameObject BlockContainer;
-    [SerializeField] private float SpawnSpeedRange;
-    [SerializeField] private List<GameObject> blocks;
     [SerializeField] private GameObject block;
 
     [SerializeField] private GameObject Wall_1;
     [SerializeField] private GameObject Wall_2;
+    public GameObject TelePort;
+    public GameObject Arrow;
+    public GameObject EndText;
+    public int BossLeft;
+    public Comet comet;
+
     [Header("关卡砖块数据")]
     [SerializeField] private int SpawnCD;
     [SerializeField] private GameObject WallParent;
     [SerializeField] private GameObject Block_Wall;
     //[SerializeField] private List<List<List<int>>> BlockPos = new List<List<List<int>>>();
     [SerializeField] private BlockofLevel BlockofLevel;
-    [SerializeField] private bool IsSpawn;
+
 
     private bool isStage1 = false;
 
@@ -30,50 +34,31 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+
     // Start is called before the first frame update
     void Start()
     {
+        //垂直同步计数设置为0，才能锁帧，否则锁帧代码无效。
+        QualitySettings.vSyncCount = 0;
+        //设置游戏帧数
+        Application.targetFrameRate = 120;
+
         //把初始化硬写在这里
         //InitPos();
         SpawnBlockPos();
-        StartCoroutine(SpawnBlockCoroutine());
         //StartCoroutine(SpawnWallCoroutine());
     }
 
-    //private void InitPos()
-    //{
-    //    //要加的时候需要先小后大
-    //    //BlockPos.Add(new List<List<int>>
-    //    //    {
-    //    //        new List<int> {-6,6},
-    //    //        new List<int> {6,6}
-    //    //    });
-    //    //BlockPos.Add(new List<List<int>>
-    //    //    {
-    //    //        new List<int> {-6,-6},
-    //    //        new List<int> {6,-6}
-    //    //    });
-    //    BlockPos.Add(new List<List<int>>
-    //        {
-    //            new List<int> {-6,-5},
-    //            new List<int> {-6,5
-    //            }
-    //        });
-    //    BlockPos.Add(new List<List<int>>
-    //        {
-    //            new List<int> {6,-5},
-    //            new List<int> {6,5}
-    //        });
-    //}
+    
 
-    IEnumerator SpawnWallCoroutine()
-    {
-        while (true)
-        {
-            SpawnBlockPos();
-            yield return new WaitForSeconds(SpawnCD);
-        }
-    }
+    //IEnumerator SpawnWallCoroutine()
+    //{
+    //    while (true)
+    //    {
+    //        SpawnBlockPos();
+    //        yield return new WaitForSeconds(SpawnCD);
+    //    }
+    //}
 
     private void SpawnBlockPos()
     {
@@ -95,7 +80,7 @@ public class GameManager : MonoBehaviour
                 //遍历blockpos第i个元素的x
                 for(int k = BlockofLevel.BlockPos[i][0][1]; k <= BlockofLevel.BlockPos[i][1][1]; k++)
                 {
-                    Debug.Log("Pos:" + j + " "+k);
+                    //Debug.Log("Pos:" + j + " "+k);
                     //遍历y
                     Instantiate(Block_Wall, new Vector3(j * 0.5f, k * 0.5f, 0), Quaternion.identity, WallParent.transform);
                 }
@@ -128,18 +113,24 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
-    IEnumerator SpawnBlockCoroutine()
-    {
-        while (IsSpawn)
-        {
-            //先改成专门加加速块的
-            //block = Instantiate(blocks[UnityEngine.Random.Range(0,blocks.Count)], Vector3.zero, Quaternion.identity, BlockContainer.transform);
-            block = Instantiate(blocks[0], Vector3.zero, Quaternion.identity, BlockContainer.transform);
+    
 
-            block.GetComponent<Rigidbody>().velocity = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0).normalized * SpawnSpeedRange;
-            //Debug.Log("Spawn,"+block+" "+block.GetComponent<Rigidbody>().velocity);
-            yield return new WaitForSeconds(10f);
+
+    public void CheckTeleportAppear()
+    {
+        BossLeft -= 1;
+        if (BossLeft == 0)
+        {
+            Debug.Log("NextLevel");
+            TelePort.SetActive(false);
+            Arrow.SetActive(true);
         }
     }
+
+    public void SetEndText(bool flag)
+    {
+        EndText.SetActive(flag);
+    }
+
 
 }

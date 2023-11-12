@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blocks:
   - con1:
-    - con2: 0b00000004000000
+    - con2: 0b00000003000000
     - con2: 1800000005000000
   - con1:
-    - con2: 0900000006000000
+    - con2: 0800000006000000
     - con2: 0a0000000e000000
   - con1:
     - con2: f6fffffff2ffffff
-    - con2: f7fffffffaffffff
+    - con2: f8fffffffaffffff
   - con1:
     - con2: e8fffffffbffffff
-    - con2: f5fffffffcffffff
+    - con2: f5fffffffdffffff

@@ -7,6 +7,7 @@ public class Boss : Block
     [SerializeField] private float Force;
     [SerializeField] private Block OnHitBlock;
     [SerializeField] private int SpawnNum = 4;
+    [SerializeField] private bool isEnd = false;
     private Rigidbody rb;
 
     protected override void Start()
@@ -40,6 +41,11 @@ public class Boss : Block
             for (int i = 0; i < SpawnNum*2; i++)
             {
                 Instantiate(OnHitBlock, transform.position, Quaternion.identity);
+            }
+            GameManager.instance.CheckTeleportAppear();
+            if (isEnd)
+            {
+                GameManager.instance.SetEndText(true);
             }
             Destroy(gameObject);
         }

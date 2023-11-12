@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blocks:
   - con1:
-    - con2: fafffffffbffffff
-    - con2: faffffff05000000
+    - con2: 06000000fcffffff
+    - con2: 0700000004000000
   - con1:
-    - con2: 06000000fbffffff
-    - con2: 0600000005000000
+    - con2: f9fffffffcffffff
+    - con2: faffffff04000000

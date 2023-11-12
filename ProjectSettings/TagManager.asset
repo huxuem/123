@@ -10,6 +10,8 @@ TagManager:
   - Wall
   - PlanetClickArea
   - Boss
+  - Teleport
+  - Acc
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - Water
   - UI
   - PostProcess
-  - 
+  - Attract
   - 
   - 
   - 
