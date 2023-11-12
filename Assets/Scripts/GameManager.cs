@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Block_Wall;
     //[SerializeField] private List<List<List<int>>> BlockPos = new List<List<List<int>>>();
     [SerializeField] private BlockofLevel BlockofLevel;
+    [SerializeField] private bool IsSpawn;
 
     private bool isStage1 = false;
 
@@ -76,8 +77,10 @@ public class GameManager : MonoBehaviour
 
     private void SpawnBlockPos()
     {
+        BlockofLevel.InitBlock();
+
         //删除墙，之后再生成
-        for(int i = 0; i < WallParent.transform.childCount; i++)
+        for (int i = 0; i < WallParent.transform.childCount; i++)
         {
             Destroy(WallParent.transform.GetChild(i).gameObject);
         }
@@ -92,7 +95,7 @@ public class GameManager : MonoBehaviour
                 //遍历blockpos第i个元素的x
                 for(int k = BlockofLevel.BlockPos[i][0][1]; k <= BlockofLevel.BlockPos[i][1][1]; k++)
                 {
-                    //Debug.Log("Pos:" + j + " "+k);
+                    Debug.Log("Pos:" + j + " "+k);
                     //遍历y
                     Instantiate(Block_Wall, new Vector3(j * 0.5f, k * 0.5f, 0), Quaternion.identity, WallParent.transform);
                 }
@@ -127,7 +130,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnBlockCoroutine()
     {
-        while (true)
+        while (IsSpawn)
         {
             //先改成专门加加速块的
             //block = Instantiate(blocks[UnityEngine.Random.Range(0,blocks.Count)], Vector3.zero, Quaternion.identity, BlockContainer.transform);

@@ -15,7 +15,7 @@ public class Block : MonoBehaviour
     protected virtual void Start()
     {
         renderer = gameObject.GetComponent<Renderer>();
-        Debug.Log("Start,:" + hitRemain);
+        //Debug.Log("Start,:" + hitRemain);
     }
 
 

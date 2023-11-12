@@ -184,12 +184,22 @@ public class Comet : MonoBehaviour
                     }
                     else
                     {
-                        block.OnHit();
-                        AudioManager.instance.HitBlockAudio();
                         if (block.IsStatic)
                         {
-                            CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
+                            DecSpeedLevel();
+                            DecSpeedLevel();
+                            DecSpeedLevel();
                         }
+                        block.OnHit();
+                        if (block != null)
+                        {
+                            block.OnHit();
+                        }
+                        AudioManager.instance.HitBlockAudio();
+                        //if (block.IsStatic)
+                        //{
+                        //    CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
+                        //}
                     }
 
                     //≤•∑≈“Ù∆µ
