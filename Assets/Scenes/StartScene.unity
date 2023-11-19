@@ -10263,6 +10263,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2500204810021636775, guid: 8fa8b71e105fc3e46a7d35a62fed3bce, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691983937234158416, guid: 8fa8b71e105fc3e46a7d35a62fed3bce, type: 3}
+      propertyPath: acc
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 6166380435439748794, guid: 8fa8b71e105fc3e46a7d35a62fed3bce, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

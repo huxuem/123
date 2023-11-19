@@ -203,7 +203,7 @@ public class Comet : MonoBehaviour
         //Debug.Log("Enter");
         if (collision.gameObject.CompareTag("Block") || collision.gameObject.CompareTag("Boss"))
         {
-
+            //如果撞方块了
             bool isBoss = false;
             Block block = collision.gameObject.GetComponent<Block>();
             Boss boss = null;
@@ -242,8 +242,8 @@ public class Comet : MonoBehaviour
                         //}
                     }
 
-                    //播放音频
-
+                    //减速
+                    DecSpeedLevel();
                     break;
 
 
@@ -266,7 +266,7 @@ public class Comet : MonoBehaviour
                         //播放音频
                         AudioManager.instance.HitBlockAudio();
                     } 
-
+                    //speedlevel为1级时不减速，这样就可以保证撞出来了
 
                     break;
 
@@ -276,20 +276,18 @@ public class Comet : MonoBehaviour
                     //当速度为第0档时，方块耐久不变化，反弹
                     //做反射运算，得到反射后的选择向量
                     CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
-                    //为0时不触发声音
+                    //为0时不触发声音，也不触发减速
 
                     break;
 
             }
-
-            DecSpeedLevel();
             //Debug.Log(CurVelocity);
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
             //Wall有速度衰减
             //Debug.Log("HitWall");
-            CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal)/ 1.1f;
+            CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal)/ 1.5f;
 
             AudioManager.instance.HitWallAudio();
         }
@@ -338,7 +336,7 @@ public class Comet : MonoBehaviour
         }
         else if(CurSpeedLevel() == 2)
         {
-            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.3f);
+            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.5f);
         }
         //switch(CurSpeedLevel())
         //{
