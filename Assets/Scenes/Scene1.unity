@@ -2576,6 +2576,9 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 119
+  mask_Drag:
+    serializedVersion: 2
+    m_Bits: 256
   PlanetList: []
 --- !u!4 &631400514
 Transform:

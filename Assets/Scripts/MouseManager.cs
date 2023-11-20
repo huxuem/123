@@ -8,12 +8,15 @@ public class MouseManager : MonoBehaviour
 {
     public static MouseManager instance;
     public LayerMask mask;
+    public LayerMask mask_Drag;
 
     public List<GameObject> PlanetList;
 
     private Camera camera;
     private RaycastHit hitInfo;
     private bool IsClicked = false;
+    private Planet curTarget;
+    private Dragable curDrag = null;
 
 
 
@@ -40,26 +43,50 @@ public class MouseManager : MonoBehaviour
     void Update()
     {
         //放在外面，保证release也可以调用
-
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hitInfo,Mathf.Infinity, mask))
+
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, mask_Drag))
+            {
+                //是可拖拽的物体
+                curDrag = hitInfo.collider.gameObject.GetComponentInParent<Dragable>();
+                curDrag.BeginDrag();
+            }
+
+            else if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, mask))
             {
                 if (hitInfo.collider.gameObject.CompareTag("PlanetClickArea") && !IsClicked)
                 {
-                    //还是需要用bool管理单次触发的东西
+                    //是星球
                     IsClicked = true;
-                    hitInfo.collider.gameObject.GetComponentInParent<Planet>().OnClicked();
+                    curTarget = hitInfo.collider.gameObject.GetComponentInParent<Planet>();
+                    curTarget.OnClicked();
                 }
 
-                // 在这里处理点击事件，根据需要执行操作
             }
+            else Debug.Log("Drag fail");
         }
         else if(Input.GetMouseButtonUp(0) && IsClicked)
         {
             IsClicked = false;
-            hitInfo.collider.gameObject.GetComponentInParent<Planet>().OnRelease();
+            curTarget.OnRelease();
+        }
+        else if(Input.GetMouseButtonUp(0) && curDrag != null)
+        {
+            //drag只能生效一次，生效完了就变成固定的了
+            curDrag.EndDrag();
+            curDrag = null;
         }
     }
+
+    private void FixedUpdate()
+    {
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if(curDrag != null)
+        {
+            curDrag.DragTo(new Vector2(pos.x, pos.y));
+        }
+    }
+
 }

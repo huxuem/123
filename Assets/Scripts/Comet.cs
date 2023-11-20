@@ -24,6 +24,7 @@ public class Comet : MonoBehaviour
     private Vector3 TmpVelocity;
     [SerializeField]private Planet curTarget;
     private Rigidbody rb;
+    private float minx,maxx,miny,maxy;
     private bool hasTarget = false;
     private bool isRotating = false;
     private bool isTeleport = false;
@@ -58,7 +59,7 @@ public class Comet : MonoBehaviour
     void Start()
     {
         InitPlanetList();
-
+        InitBoarder();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -71,6 +72,18 @@ public class Comet : MonoBehaviour
             planet.GetComponent<Planet>().E_PlanetClick += PullToPlanet;
             planet.GetComponent<Planet>().E_PlanetRelease += RealseFromPlanet;
         }
+    }
+    private void InitBoarder()
+    {
+        //获取最大值最小值
+        //靠，x一开始是反着摆的
+        maxx = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x;
+        minx = Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x;
+
+        miny = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).y;
+        maxy = Camera.main.ViewportToWorldPoint(new Vector2(0, 1)).y;
+
+        Debug.Log(minx+" "+maxx+" "+miny+" "+maxy);
     }
 
     // Update is called once per frame
@@ -149,9 +162,32 @@ public class Comet : MonoBehaviour
             //}
         }
 
-
+        CheckOutRange();
         CheckSpeedThresholdAnim();
     }
+
+    //检查是否飞出边界
+    private void CheckOutRange()
+    {
+
+        if(transform.position.x < minx)
+        {
+            transform.position = new Vector3 (minx+1, transform.position.y, 0);
+        }
+        else if(transform.position.x > maxx)
+        {
+            transform.position = new Vector3(maxx-1, transform.position.y, 0);
+        }
+        else if(transform.position.y < miny)
+        {
+            transform.position = new Vector3(transform.position.x, miny + 1, 0);
+        }
+        else if (transform.position.y > maxy)
+        {
+            transform.position = new Vector3(transform.position.x, maxy-1, 0);
+        }
+    }
+
 
     //每帧根据速度更改当前的动画
     private void CheckSpeedThresholdAnim()
