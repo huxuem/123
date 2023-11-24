@@ -16,12 +16,15 @@ public class Boss : Block
         rb = GetComponent<Rigidbody>();
     }
 
-    public void OnHit(Vector3 Velocity)
+    public override void OnHit(Vector3 curVelo, int SpeedLevel, Vector3 normal, out Vector3 SpeedOutput)
     {
-        hitRemain -= 1;
-        //Debug.Log("Boss get hit,hitRemain:"+hitRemain);
+        //boss的onhit中没有用SpeedLevel
+        AudioManager.instance.HitBossAudio();
+        SpeedOutput = Vector3.Reflect(curVelo, normal);
 
-        rb.velocity = Velocity * Force;
+        hitRemain -= 1;
+
+        rb.velocity = curVelo * Force;
 
         CheckDestory();
         if (hitRemain > 0)

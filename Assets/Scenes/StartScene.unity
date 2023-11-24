@@ -310,6 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0.2
 --- !u!65 &181408305
 BoxCollider:
@@ -1553,6 +1555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0.2
 --- !u!65 &411029059
 BoxCollider:
@@ -2038,6 +2042,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0.2
 --- !u!1001 &597951974
 PrefabInstance:
@@ -5865,6 +5871,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0.2
 --- !u!1001 &1431195632
 PrefabInstance:
@@ -7352,6 +7360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0.2
 --- !u!65 &1719392602
 BoxCollider:
@@ -7603,6 +7613,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0.2
 --- !u!65 &1758373929
 BoxCollider:
@@ -8108,6 +8120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0.2
 --- !u!65 &1852327478
 BoxCollider:

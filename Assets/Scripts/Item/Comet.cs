@@ -250,106 +250,23 @@ public class Comet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log("Enter");
-        if (collision.gameObject.CompareTag("Block") || collision.gameObject.CompareTag("Boss"))
+        Hitable block = collision.gameObject.GetComponent<Hitable>();
+
+        //现在只要它是需要和球碰撞的，就需要继承Hitable，在里面写一个对应的碰撞函数
+        if (block != null)
         {
-            //如果撞方块了
-            bool isBoss = false;
-            Hitable block = collision.gameObject.GetComponent<Hitable>();
-            Boss boss = null;
-            if (collision.gameObject.CompareTag("Boss"))
-            {
-                isBoss = true;
-                boss = collision.gameObject.GetComponent<Boss>();
-            }
-            switch (CurSpeedLevel())
-            {
-                case 2:
-                    //当速度第二档时，方块耐久-1，无耐久则打穿，有耐久则反弹（之后要改成减对应耐久的）
-                    if (isBoss)
-                    {
-                        boss.OnHit(CurVelocity);
-                        AudioManager.instance.HitBossAudio();
-                        CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
-                    }
-                    else
-                    {
-                        if (block.IsStatic)
-                        {
-                            DecSpeedLevel(3);
-                        }
-                        block.OnHit();
-                        if (block != null)
-                        {
-                            block.OnHit();
-                        }
-                        AudioManager.instance.HitBlockAudio();
-                        //if (block.IsStatic)
-                        //{
-                        //    CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
-                        //}
-                    }
-
-                    //减速
-                    DecSpeedLevel(1);
-                    break;
-
-
-                case 1:
-                    //Debug.Log("Collide level 1");
-                    //做反射运算，得到反射后的选择向量。OnHit可能要写在后面，要不getcontact已经没了
-                    CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
-                    if (isBoss)
-                    {
-                        boss.OnHit(CurVelocity);
-                        if (boss != null)
-                        {
-                            AudioManager.instance.HitBossAudio();
-                        }
-                        else AudioManager.instance.DefeatBossAudio();
-                    }
-                    else 
-                    {
-                        block.OnHit();
-                        //播放音频
-                        AudioManager.instance.HitBlockAudio();
-                    } 
-                    //speedlevel为1级时不减速，这样就可以保证撞出来了
-
-                    break;
-
-                case 0:
-                    //Debug.Log("Collide level 0");
-
-                    //当速度为第0档时，方块耐久不变化，反弹
-                    //做反射运算，得到反射后的选择向量
-                    CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
-                    //为0时不触发声音，也不触发减速
-
-                    break;
-
-            }
-            //Debug.Log(CurVelocity);
+            block.OnHit(CurVelocity, CurSpeedLevel(), collision.GetContact(0).normal, out CurVelocity);
         }
-        else if (collision.gameObject.CompareTag("Wall"))
+        else
         {
             //Wall有速度衰减
             //Debug.Log("HitWall");
-            CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal)/ 1.5f;
-
-            AudioManager.instance.HitWallAudio();
-        }
-        else if (collision.gameObject.CompareTag("Acc")){}
-        else
-        {
-            //做反射运算，得到反射后的选择向量
-            //Debug.Log("Hit other thing");
             CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
         }
 
-    }
+}
 
-    
+
 
 
     //返回当前的速度挡位，0为无法击破，1为击破并反弹，2为击穿

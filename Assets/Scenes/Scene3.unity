@@ -231,6 +231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0
 --- !u!65 &18088370
 BoxCollider:
@@ -307,7 +309,6 @@ GameObject:
   - component: {fileID: 42424868}
   - component: {fileID: 42424867}
   - component: {fileID: 42424866}
-  - component: {fileID: 42424870}
   m_Layer: 0
   m_Name: Wall_2
   m_TagString: Untagged
@@ -393,19 +394,6 @@ Transform:
   m_Father: {fileID: 735134219}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &42424870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42424864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpeedDecRatio: 0.2
 --- !u!4 &60345896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4207761411970254210, guid: 55c666ed1b1868a48a8f277879adcf24, type: 3}
@@ -1805,6 +1793,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0
 --- !u!65 &439310553
 BoxCollider:
@@ -2384,7 +2374,6 @@ GameObject:
   - component: {fileID: 580696124}
   - component: {fileID: 580696123}
   - component: {fileID: 580696122}
-  - component: {fileID: 580696126}
   m_Layer: 0
   m_Name: Wall_4
   m_TagString: Untagged
@@ -2470,19 +2459,6 @@ Transform:
   m_Father: {fileID: 735134219}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &580696126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580696120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpeedDecRatio: 0.2
 --- !u!1 &594765766
 GameObject:
   m_ObjectHideFlags: 0
@@ -3713,6 +3689,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0
 --- !u!65 &732911420
 BoxCollider:
@@ -4323,6 +4301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0
 --- !u!65 &898084062
 BoxCollider:
@@ -5784,6 +5764,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0
 --- !u!65 &1102521589
 BoxCollider:
@@ -5957,6 +5939,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0
 --- !u!65 &1170986134
 BoxCollider:
@@ -6721,6 +6705,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0
 --- !u!65 &1308129147
 BoxCollider:
@@ -7568,7 +7554,6 @@ GameObject:
   - component: {fileID: 1420775588}
   - component: {fileID: 1420775587}
   - component: {fileID: 1420775586}
-  - component: {fileID: 1420775590}
   m_Layer: 0
   m_Name: Wall_3
   m_TagString: Untagged
@@ -7654,19 +7639,6 @@ Transform:
   m_Father: {fileID: 735134219}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1420775590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1420775584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpeedDecRatio: 0.2
 --- !u!1001 &1431195632
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9166,6 +9138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0
 --- !u!65 &1679206329
 BoxCollider:
@@ -9551,6 +9525,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26a35c80d2aa0f4b98a57020bf9af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStatic: 0
+  hitRemain: 0
   SpeedDecRatio: 0
 --- !u!65 &1744476757
 BoxCollider:
@@ -11787,5 +11763,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1590326375420668070, guid: 7bc04b956669cb04fa7050c0d3322a5d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7bc04b956669cb04fa7050c0d3322a5d, type: 3}

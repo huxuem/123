@@ -16,9 +16,51 @@ public class Block : Hitable
     }
 
 
-    public override void OnHit()
+    public override void OnHit(Vector3 curVelo, int SpeedLevel, Vector3 normal, out Vector3 SpeedOutput)
     {
-        hitRemain -= 1;
+        //计算出减速/反射之后的速度，并用SpeedOutput返回
+        switch (SpeedLevel)
+        {
+            case 2:
+                //当速度第二档时，方块耐久-1，无耐久则打穿，有耐久则反弹（之后要改成减对应耐久的）
+
+                if (IsStatic)
+                {
+                    DecSpeedLevel(SpeedLevel, curVelo, 3);
+                }
+                //速度等级为2时，撞到的方块直接被摧毁
+                hitRemain = 0;
+                //播放音频
+                AudioManager.instance.HitBlockAudio();
+
+                //减速
+                SpeedOutput = DecSpeedLevel(SpeedLevel, curVelo, 1);
+                break;
+
+
+            case 1:
+                //Debug.Log("Collide level 1");
+                //做反射运算，得到反射后的选择向量。OnHit可能要写在后面，要不getcontact已经没了
+                SpeedOutput = Vector3.Reflect(curVelo, normal);
+                hitRemain -= 1;
+                //播放音频
+                AudioManager.instance.HitBlockAudio();
+                //speedlevel为1级时不减速，这样就可以保证撞出来了
+
+                break;
+
+            case 0:
+
+                //当速度为第0档时，方块耐久不变化，反弹
+                //做反射运算，得到反射后的选择向量
+                SpeedOutput = Vector3.Reflect(curVelo, normal);
+
+                break;
+            default:
+                SpeedOutput = curVelo;
+                break;
+
+        }
 
 
         CheckDestory();
@@ -42,5 +84,18 @@ public class Block : Hitable
         {
             Destroy(gameObject);
         }
+    }
+
+    private Vector3 DecSpeedLevel(int SpeedLevel, Vector3 CurVelocity, int level)
+    {
+        if (SpeedLevel == 1)
+        {
+            return CurVelocity.normalized * (CurVelocity.magnitude - 0.5f * level);
+        }
+        else if (SpeedLevel == 2)
+        {
+            return CurVelocity.normalized * (CurVelocity.magnitude - 0.5f * level);
+        }
+        else return CurVelocity;
     }
 }
