@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Teleport : MonoBehaviour
 {
     public string targetSceneName; // 下一个场景的名称
+
     public bool IsHorizontal;
     private Scene targetScene; // 保存目标场景的引用
 
@@ -25,9 +26,10 @@ public class Teleport : MonoBehaviour
         Debug.Log("Enter!");
         if (other.CompareTag("Comet"))
         {
-            //暂存当前场景comet的pos和velocity，传给下一关的comet
-            //Vector3 pos = TeleportManager.instance.comet.transform.position;
-            //Vector3 velocity = TeleportManager.instance.comet.CurVelocity;
+            //暂存当前场景comet的pos和velocity到TeleportManager里，传给下一关的comet
+            TeleportManager.instance.Pos_Pre = TeleportManager.instance.comet.transform.position;
+            TeleportManager.instance.Velo_Pre = TeleportManager.instance.comet.CurVelocity;
+            TeleportManager.instance.IsHorizontal = IsHorizontal;
             // 切换到目标场景
             Debug.Log(targetSceneName);
             SceneManager.LoadScene(targetSceneName);

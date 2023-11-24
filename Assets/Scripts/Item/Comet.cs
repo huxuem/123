@@ -10,7 +10,7 @@ public class Comet : MonoBehaviour
     public float acc = 1;
 
 
-    [SerializeField]private float accMinRange = 5;
+    [SerializeField] private float accMinRange = 5;
     //[SerializeField] private float VelDecRatio = 1.5f;
     [SerializeField] private float RocketRotateSpeed = 5f;
     [SerializeField] private float RotateSpeed = 1f;
@@ -42,13 +42,27 @@ public class Comet : MonoBehaviour
     {
         curTarget = null;
         //InitPlanetList();
+
+        //分左右，向中心偏移一单位（因为protal需要放在外面。之后protal全部放在边界外移1.5单位的地方）
         if (isHorizontal)
         {
-            transform.position = new Vector3(transform.position.x * -1, transform.position.y, 0f);
+            if(transform.position.x < 0)
+            {
+                transform.position = new Vector3(transform.position.x * -1 -1, transform.position.y, 0f);
+            }
+            else transform.position = new Vector3(transform.position.x * -1 +1, transform.position.y, 0f);
         }
 
-        else transform.position = new Vector3(transform.position.x, transform.position.y * -1, 0f);
+        else
+        {
+            if (transform.position.y < 0)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y * -1 -1, 0f);
+            }
+            else transform.position = new Vector3(transform.position.x, transform.position.y * -1 +1, 0f);
+        }
 
+        //用于控制尾迹开关
         isTeleport = true;
         yield return new WaitForSeconds(0.4f);
         isTeleport = false;
@@ -83,7 +97,7 @@ public class Comet : MonoBehaviour
         miny = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).y;
         maxy = Camera.main.ViewportToWorldPoint(new Vector2(0, 1)).y;
 
-        Debug.Log(minx+" "+maxx+" "+miny+" "+maxy);
+        //Debug.Log(minx+" "+maxx+" "+miny+" "+maxy);
     }
 
     // Update is called once per frame
@@ -170,19 +184,19 @@ public class Comet : MonoBehaviour
     private void CheckOutRange()
     {
 
-        if(transform.position.x < minx)
+        if(transform.position.x < minx-1)
         {
             transform.position = new Vector3 (minx+1, transform.position.y, 0);
         }
-        else if(transform.position.x > maxx)
+        else if(transform.position.x > maxx+1)
         {
             transform.position = new Vector3(maxx-1, transform.position.y, 0);
         }
-        else if(transform.position.y < miny)
+        else if(transform.position.y < miny-1)
         {
             transform.position = new Vector3(transform.position.x, miny + 1, 0);
         }
-        else if (transform.position.y > maxy)
+        else if (transform.position.y > maxy+1)
         {
             transform.position = new Vector3(transform.position.x, maxy-1, 0);
         }
@@ -262,9 +276,7 @@ public class Comet : MonoBehaviour
                     {
                         if (block.IsStatic)
                         {
-                            DecSpeedLevel();
-                            DecSpeedLevel();
-                            DecSpeedLevel();
+                            DecSpeedLevel(3);
                         }
                         block.OnHit();
                         if (block != null)
@@ -279,7 +291,7 @@ public class Comet : MonoBehaviour
                     }
 
                     //减速
-                    DecSpeedLevel();
+                    DecSpeedLevel(1);
                     break;
 
 
@@ -364,15 +376,15 @@ public class Comet : MonoBehaviour
     }
 
     //碰撞方块后，调到下一档速度的开始
-    private void DecSpeedLevel()
+    private void DecSpeedLevel(int level)
     {
         if (CurSpeedLevel() == 1)
         {
-            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.5f);
+            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.5f * level);
         }
         else if(CurSpeedLevel() == 2)
         {
-            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.5f);
+            CurVelocity = CurVelocity.normalized * (CurVelocity.magnitude - 0.5f * level);
         }
         //switch(CurSpeedLevel())
         //{

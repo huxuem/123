@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : MonoBehaviour
+public class Block : Hitable
 {
-    public bool IsStatic;
-
-    [SerializeField]protected int hitRemain  = 2;
     [SerializeField] List<Material> mat_hit;
 
     private Renderer renderer;
@@ -19,7 +16,7 @@ public class Block : MonoBehaviour
     }
 
 
-    public virtual void OnHit()
+    public override void OnHit()
     {
         hitRemain -= 1;
 

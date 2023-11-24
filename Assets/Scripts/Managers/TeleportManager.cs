@@ -6,8 +6,9 @@ public class TeleportManager : MonoBehaviour
 {
     public static TeleportManager instance;
 
-    [HideInInspector]public Transform CometTransform;
-    [HideInInspector]public Vector3 velocity;
+    [HideInInspector]public Vector3 Pos_Pre;
+    [HideInInspector]public Vector3 Velo_Pre;
+    [HideInInspector] public bool IsHorizontal;
 
     [SerializeField] private GameObject TelePort;
     [SerializeField] private int BossLeft;
@@ -26,9 +27,11 @@ public class TeleportManager : MonoBehaviour
 
     public void RefreshTeleport()
     {
-        TelePort = GameManager.instance.TelePort;
-        BossLeft = GameManager.instance.BossLeft;
-        comet = GameManager.instance.comet;
+        GameManager gameManager = FindObjectOfType<GameManager>();
+
+        TelePort = gameManager.TelePort;
+        BossLeft = gameManager.BossLeft;
+        comet = gameManager.comet;
         Debug.Log("curComet:" + comet.GetInstanceID());
     }
 

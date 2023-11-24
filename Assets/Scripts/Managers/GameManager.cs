@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,6 +33,14 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        //在除了第一关开始时，触发传送，并刷新TeleportManager的引用
+        Debug.Log(SceneManager.GetActiveScene().name);
+        if(SceneManager.GetActiveScene().name != "StartScene")
+        {
+            comet.Teleport(TeleportManager.instance.Pos_Pre, TeleportManager.instance.Velo_Pre, TeleportManager.instance.IsHorizontal);
+            TeleportManager.instance.RefreshTeleport();
+        }
     }
 
 
@@ -89,19 +98,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ChangeWallState()
-    {
-        if (isStage1)
-        {
-            Wall_1.SetActive(true);
-            Wall_2.SetActive(false);
-        }
-        else
-        {
-            Wall_1.SetActive(false);
-            Wall_2.SetActive(true);
-        }
-    }
+    //private void ChangeWallState()
+    //{
+    //    if (isStage1)
+    //    {
+    //        Wall_1.SetActive(true);
+    //        Wall_2.SetActive(false);
+    //    }
+    //    else
+    //    {
+    //        Wall_1.SetActive(false);
+    //        Wall_2.SetActive(true);
+    //    }
+    //}
 
     //private void Update()
     //{
