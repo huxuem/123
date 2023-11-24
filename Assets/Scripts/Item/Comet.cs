@@ -255,7 +255,7 @@ public class Comet : MonoBehaviour
         {
             //如果撞方块了
             bool isBoss = false;
-            Block block = collision.gameObject.GetComponent<Block>();
+            Hitable block = collision.gameObject.GetComponent<Hitable>();
             Boss boss = null;
             if (collision.gameObject.CompareTag("Boss"))
             {
