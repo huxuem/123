@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : Hitable
+public class Block : Hitable, Iinteractable
 {
     [SerializeField] List<Material> mat_hit;
 
@@ -16,7 +16,7 @@ public class Block : Hitable
     }
 
 
-    public override void OnHit(Vector3 curVelo, int SpeedLevel, Vector3 normal, out Vector3 SpeedOutput)
+    public override void OnHit(Vector3 curVelo, int SpeedLevel, float CometScale, Vector3 normal, out Vector3 SpeedOutput)
     {
         //计算出减速/反射之后的速度，并用SpeedOutput返回
         switch (SpeedLevel)
@@ -26,7 +26,7 @@ public class Block : Hitable
 
                 if (IsStatic)
                 {
-                    DecSpeedLevel(SpeedLevel, curVelo, 3);
+                    DecSpeedLevel(SpeedLevel, curVelo, CometScale, 3);
                 }
                 //速度等级为2时，撞到的方块直接被摧毁
                 hitRemain = 0;
@@ -34,7 +34,7 @@ public class Block : Hitable
                 AudioManager.instance.HitBlockAudio();
 
                 //减速
-                SpeedOutput = DecSpeedLevel(SpeedLevel, curVelo, 1);
+                SpeedOutput = DecSpeedLevel(SpeedLevel, curVelo, CometScale, 1);
                 break;
 
 
@@ -71,6 +71,18 @@ public class Block : Hitable
         }
     }
 
+    #region 道具
+    public void OnEnlarge(float Ratio)
+    {
+        transform.localScale = transform.localScale * Ratio;
+    }
+    public void OnDiminish(float Ratio)
+    {
+        transform.localScale = transform.localScale / Ratio;
+    }
+
+    #endregion
+
     protected void changeMaterial()
     {
         //Debug.Log("HitRemain:" + hitRemain+", name:"+transform.gameObject.GetInstanceID());
@@ -86,15 +98,15 @@ public class Block : Hitable
         }
     }
 
-    private Vector3 DecSpeedLevel(int SpeedLevel, Vector3 CurVelocity, int level)
+    private Vector3 DecSpeedLevel(int SpeedLevel, Vector3 CurVelocity, float CometScale, int level)
     {
         if (SpeedLevel == 1)
         {
-            return CurVelocity.normalized * (CurVelocity.magnitude - 0.5f * level);
+            return CurVelocity.normalized * (CurVelocity.magnitude - 0.5f * level / CometScale);
         }
         else if (SpeedLevel == 2)
         {
-            return CurVelocity.normalized * (CurVelocity.magnitude - 0.5f * level);
+            return CurVelocity.normalized * (CurVelocity.magnitude - 0.5f * level / CometScale);
         }
         else return CurVelocity;
     }

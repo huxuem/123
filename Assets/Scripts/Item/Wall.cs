@@ -6,7 +6,7 @@ public class Wall : Hitable
 {
     [SerializeField] private float SpeedDecRatio = 0;
 
-    public override void OnHit(Vector3 curVelo, int SpeedLevel, Vector3 normal, out Vector3 SpeedOutput)
+    public override void OnHit(Vector3 curVelo, int SpeedLevel, float CometScale, Vector3 normal, out Vector3 SpeedOutput)
     {
         SpeedOutput = Vector3.Reflect(curVelo, normal);
         AudioManager.instance.HitWallAudio();

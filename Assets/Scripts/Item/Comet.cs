@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 //using static UnityEditor.PlayerSettings;
 
-public class Comet : MonoBehaviour
+public class Comet : MonoBehaviour, Iinteractable
 {
     public Vector3 CurVelocity = Vector3.zero;
     public float acc = 1;
@@ -15,6 +15,9 @@ public class Comet : MonoBehaviour
     [SerializeField] private float RocketRotateSpeed = 5f;
     [SerializeField] private float RotateSpeed = 1f;
     [SerializeField] private float TurnRatio = 1f;
+    //给变大变小用的，让其他撞击的东西知道当前Comet大小
+    [SerializeField] private float CometScale = 1f;
+
 
     [SerializeField] private List<float> SpeedThreshold = new List<float> {2,4};
     [SerializeField] private GameObject trail_1;
@@ -118,8 +121,8 @@ public class Comet : MonoBehaviour
             //Debug.Log("Here");
             if (dir.magnitude > curTarget.RangePush)
             {
-                //改成moveDir，近距离加大引力
-                CurVelocity += moveDir * acc/100 / Mathf.Min(dir.magnitude, accMinRange);
+                //改成moveDir，近距离加大引力。要乘上星球自身的引力
+                CurVelocity += moveDir * acc/100 / Mathf.Min(dir.magnitude, accMinRange) * curTarget.Force;
                 CurVelocity = new Vector3(CurVelocity.x, CurVelocity.y, 0);
                 //当方块被击中时，通过检测彗星的速度来判断是否会被击穿/反弹，并直接更改彗星的速度
                 transform.Translate(CurVelocity * Time.deltaTime, Space.World);
@@ -255,7 +258,7 @@ public class Comet : MonoBehaviour
         //现在只要它是需要和球碰撞的，就需要继承Hitable，在里面写一个对应的碰撞函数
         if (block != null)
         {
-            block.OnHit(CurVelocity, CurSpeedLevel(), collision.GetContact(0).normal, out CurVelocity);
+            block.OnHit(CurVelocity, CurSpeedLevel(), CometScale, collision.GetContact(0).normal, out CurVelocity);
         }
         else
         {
@@ -344,9 +347,19 @@ public class Comet : MonoBehaviour
 
     #region 道具
 
-    public void Item_Acc()
+    //在变大时，Comet加速度减小，但撞击摧毁方块更轻松
+    public void OnEnlarge(float Ratio)
     {
-        CurVelocity += CurVelocity.normalized * 2;
+        transform.localScale = transform.localScale * Ratio;
+        acc /= Ratio;
+        CometScale *= Ratio;
+    }
+
+    public void OnDiminish(float Ratio)
+    {
+        transform.localScale = transform.localScale / Ratio;
+        acc *= Ratio;
+        CometScale /= Ratio;
     }
 
 

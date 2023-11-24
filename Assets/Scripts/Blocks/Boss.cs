@@ -16,7 +16,7 @@ public class Boss : Block
         rb = GetComponent<Rigidbody>();
     }
 
-    public override void OnHit(Vector3 curVelo, int SpeedLevel, Vector3 normal, out Vector3 SpeedOutput)
+    public override void OnHit(Vector3 curVelo, int SpeedLevel, float CometScale, Vector3 normal, out Vector3 SpeedOutput)
     {
         //boss的onhit中没有用SpeedLevel
         AudioManager.instance.HitBossAudio();
@@ -24,7 +24,8 @@ public class Boss : Block
 
         hitRemain -= 1;
 
-        rb.velocity = curVelo * Force;
+        //受彗星撞击后的移动，需要乘本身的受力比例&&Comet的比例
+        rb.velocity = curVelo * Force * CometScale;
 
         CheckDestory();
         if (hitRemain > 0)

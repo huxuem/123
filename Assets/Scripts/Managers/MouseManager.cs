@@ -50,6 +50,7 @@ public class MouseManager : MonoBehaviour
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, mask_Drag))
             {
                 //是可拖拽的物体
+                //Debug.Log("Drag Start");
                 curDrag = hitInfo.collider.gameObject.GetComponentInParent<Dragable>();
                 curDrag.BeginDrag();
             }
