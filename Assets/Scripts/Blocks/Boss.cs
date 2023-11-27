@@ -38,13 +38,13 @@ public class Boss : Block
     {
         for (int i = 0; i < SpawnNum; i++)
         {
-            Instantiate(OnHitBlock, transform.position, Quaternion.identity);
+            Instantiate(GameManager.instance.GetRandomBlock(), transform.position, Quaternion.identity);
         }
         if (hitRemain <= 0)
         {
             for (int i = 0; i < SpawnNum*2; i++)
             {
-                Instantiate(OnHitBlock, transform.position, Quaternion.identity);
+                Instantiate(GameManager.instance.GetRandomBlock(), transform.position, Quaternion.identity);
             }
             GameManager.instance.CheckTeleportAppear();
             if (isEnd)

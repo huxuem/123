@@ -12,14 +12,14 @@ public class Block_acc : Hitable, Iinteractable
         Destroy(gameObject);
     }
 
-    public void OnEnlarge(float Ratio)
-    {
-        transform.localScale = transform.localScale * Ratio;
-    }
+    //public void OnEnlarge(float Ratio)
+    //{
+    //    transform.localScale = transform.localScale * Ratio;
+    //}
 
-    public void OnDiminish(float Ratio)
-    {
-        transform.localScale = transform.localScale / Ratio;
-    }
+    //public void OnDiminish(float Ratio)
+    //{
+    //    transform.localScale = transform.localScale / Ratio;
+    //}
 
 }

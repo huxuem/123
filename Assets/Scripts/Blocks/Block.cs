@@ -72,21 +72,21 @@ public class Block : Hitable, Iinteractable
     }
 
     #region µÀ¾ß
-    public void OnEnlarge(float Ratio)
-    {
-        transform.localScale = transform.localScale * Ratio;
-    }
-    public void OnDiminish(float Ratio)
-    {
-        transform.localScale = transform.localScale / Ratio;
-    }
+    //public void OnEnlarge(float Ratio)
+    //{
+    //    transform.localScale = transform.localScale * Ratio;
+    //}
+    //public void OnDiminish(float Ratio)
+    //{
+    //    transform.localScale = transform.localScale / Ratio;
+    //}
 
     #endregion
 
     protected void changeMaterial()
     {
         //Debug.Log("HitRemain:" + hitRemain+", name:"+transform.gameObject.GetInstanceID());
-        renderer.material = mat_hit[hitRemain-1]; 
+        renderer.material = mat_hit[hitRemain%2]; 
     }
 
     protected virtual void CheckDestory()

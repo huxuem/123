@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Tool_Big : Drag_Tool
 {
-    private float Ratio = 1.5f;
+    private float Ratio = 1.8f;
 
     public override void EndDrag()
     {

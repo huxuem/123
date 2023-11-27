@@ -38,6 +38,7 @@ public class Planet : MonoBehaviour, Iinteractable
         transform.localScale = transform.localScale / Ratio;
         RangePush /= Ratio;
         RangePull /= Ratio;
-        Force /= Ratio;
+        //就不在缩小时降低吸引力了。怎么说这也是消耗了一个道具
+        //Force /= Ratio;
     }
 }

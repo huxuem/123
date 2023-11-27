@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Tool_Small : Drag_Tool
 {
-    private float Ratio = 1.5f;
+    private float Ratio = 1.8f;
     public override void EndDrag()
     {
         base.EndDrag();

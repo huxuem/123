@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
@@ -23,6 +24,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int SpawnCD;
     [SerializeField] private GameObject WallParent;
     [SerializeField] private GameObject Block_Wall;
+    [SerializeField] private GameObject Block_Dynamic;
+    [SerializeField] private GameObject Block_Spawn;
     //[SerializeField] private List<List<List<int>>> BlockPos = new List<List<List<int>>>();
     [SerializeField] private BlockofLevel BlockofLevel;
 
@@ -53,21 +56,16 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 120;
 
         //把初始化硬写在这里
-        //InitPos();
+        LoadBlockPrefab();
         SpawnBlockPos();
         //StartCoroutine(SpawnWallCoroutine());
     }
 
-    
-
-    //IEnumerator SpawnWallCoroutine()
-    //{
-    //    while (true)
-    //    {
-    //        SpawnBlockPos();
-    //        yield return new WaitForSeconds(SpawnCD);
-    //    }
-    //}
+    private void LoadBlockPrefab()
+    {
+        Block_Dynamic = Resources.Load<GameObject>("Prefabs/Block1");
+        Block_Spawn = Resources.Load<GameObject>("Prefabs/BlockSpawn");
+    }
 
     private void SpawnBlockPos()
     {
@@ -98,31 +96,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //private void ChangeWallState()
-    //{
-    //    if (isStage1)
-    //    {
-    //        Wall_1.SetActive(true);
-    //        Wall_2.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        Wall_1.SetActive(false);
-    //        Wall_2.SetActive(true);
-    //    }
-    //}
-
-    //private void Update()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        Debug.Log("ChangeState");
-    //        ChangeWallState();
-    //        isStage1 = !isStage1;
-    //    }
-    //}
-
-    
+    //给其他所有生成方块的物体调用，用于随机生成道具方块
+    public GameObject GetRandomBlock()
+    {
+        ////百分比形式
+        //int Ratio = 5;
+        //if(UnityEngine.Random.Range(0, 100)< Ratio)
+        //{
+        //    return Block_Spawn;
+        //}
+        //else return Block_Dynamic;
+        return Block_Dynamic;
+    }
 
 
     public void CheckTeleportAppear()

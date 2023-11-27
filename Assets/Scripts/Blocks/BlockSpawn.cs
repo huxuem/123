@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlockSpawn : Hitable
 {
-    [SerializeField] private GameObject ItemSpawn;
+    [SerializeField] private List<GameObject> ItemSpawn;
     //这类方块固定受1次撞击，撞完直接露出本体
     public override void OnHit(Vector3 curVelo, int SpeedLevel, float CometScale, Vector3 normal, out Vector3 SpeedOutput)
     {
@@ -14,7 +14,7 @@ public class BlockSpawn : Hitable
         }
         else SpeedOutput = curVelo;
 
-        Instantiate(ItemSpawn, transform.position, transform.rotation);
+        Instantiate(ItemSpawn[Random.Range(0,ItemSpawn.Count+1)], transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

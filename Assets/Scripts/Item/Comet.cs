@@ -103,6 +103,27 @@ public class Comet : MonoBehaviour, Iinteractable
         //Debug.Log(minx+" "+maxx+" "+miny+" "+maxy);
     }
 
+    //当被点击时，复制Comet。从mousemgr里调用
+    public void SelfSplit()
+    {
+
+        //获取Comet物体并实例化
+        GameObject CometObj = Resources.Load<GameObject>("Prefabs/Comet");
+        Instantiate(CometObj);
+        Comet newComet = CometObj.GetComponent<Comet>();
+
+        //设置速度
+        newComet.CurVelocity = RotateVector3(CurVelocity, new Vector3(0, 0, 1), 90);
+
+    }
+
+    //用于vector3旋转
+    private Vector3 RotateVector3(Vector3 source, Vector3 axis, float angle)
+    {
+        Quaternion q = Quaternion.AngleAxis(angle, axis);// 旋转系数
+        return q * source;// 返回目标点
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -122,7 +143,7 @@ public class Comet : MonoBehaviour, Iinteractable
             if (dir.magnitude > curTarget.RangePush)
             {
                 //改成moveDir，近距离加大引力。要乘上星球自身的引力
-                CurVelocity += moveDir * acc/100 / Mathf.Min(dir.magnitude, accMinRange) * curTarget.Force;
+                CurVelocity += moveDir * acc / Mathf.Min(dir.magnitude, accMinRange) * curTarget.Force * Time.deltaTime;
                 CurVelocity = new Vector3(CurVelocity.x, CurVelocity.y, 0);
                 //当方块被击中时，通过检测彗星的速度来判断是否会被击穿/反弹，并直接更改彗星的速度
                 transform.Translate(CurVelocity * Time.deltaTime, Space.World);
@@ -262,8 +283,7 @@ public class Comet : MonoBehaviour, Iinteractable
         }
         else
         {
-            //Wall有速度衰减
-            //Debug.Log("HitWall");
+            //默认为全反弹。一般需要撞到的东西都继承Hitable
             CurVelocity = Vector3.Reflect(CurVelocity, collision.GetContact(0).normal);
         }
 
@@ -348,6 +368,7 @@ public class Comet : MonoBehaviour, Iinteractable
     #region 道具
 
     //在变大时，Comet加速度减小，但撞击摧毁方块更轻松
+    //撞击摧毁方块的效率是通过CometScale来控制的
     public void OnEnlarge(float Ratio)
     {
         transform.localScale = transform.localScale * Ratio;
@@ -359,7 +380,7 @@ public class Comet : MonoBehaviour, Iinteractable
     {
         transform.localScale = transform.localScale / Ratio;
         acc *= Ratio;
-        CometScale /= Ratio;
+        //CometScale /= Ratio;
     }
 
 

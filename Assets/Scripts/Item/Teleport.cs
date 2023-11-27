@@ -27,18 +27,13 @@ public class Teleport : MonoBehaviour
         if (other.CompareTag("Comet"))
         {
             //暂存当前场景comet的pos和velocity到TeleportManager里，传给下一关的comet
+            //要改
             TeleportManager.instance.Pos_Pre = TeleportManager.instance.comet.transform.position;
             TeleportManager.instance.Velo_Pre = TeleportManager.instance.comet.CurVelocity;
             TeleportManager.instance.IsHorizontal = IsHorizontal;
             // 切换到目标场景
             Debug.Log(targetSceneName);
             SceneManager.LoadScene(targetSceneName);
-
-            ////重新获取场景里的几个引用，从新的gamemanager里拿进来
-            //TeleportManager.instance.RefreshTeleport();
-
-            ////把comet传送到屏幕另一边
-            //TeleportManager.instance.comet.Teleport(pos,velocity,IsHorizontal);
         }
     }
 
