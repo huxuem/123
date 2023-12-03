@@ -15,9 +15,11 @@ public class MouseManager : MonoBehaviour
 
     private Camera camera;
     private RaycastHit hitInfo;
-    private bool IsClicked = false;
     private Planet curTarget;
     private Dragable curDrag = null;
+
+    private bool IsClicked = false;
+    private bool isSpliting = false;
 
 
 
@@ -66,11 +68,10 @@ public class MouseManager : MonoBehaviour
                     curTarget = hitInfo.collider.gameObject.GetComponentInParent<Planet>();
                     curTarget.OnClicked();
                 }
-                else if (hitInfo.collider.gameObject.CompareTag("Comet"))
+                else if (hitInfo.collider.gameObject.CompareTag("Comet") && !isSpliting)
                 {
-                    Comet comet = hitInfo.collider.gameObject.GetComponentInParent<Comet>();
-                    Debug.Log("Split");
-                    comet.SelfSplit();
+                    isSpliting = true;
+                    StartCoroutine(CometSplitCoroutine());
                 }
 
             }
@@ -89,6 +90,14 @@ public class MouseManager : MonoBehaviour
         //}
     }
 
+    IEnumerator CometSplitCoroutine()
+    {
+        Comet comet = hitInfo.collider.gameObject.GetComponentInParent<Comet>();
+        //Debug.Log("Split");
+        comet.SelfSplit();
+        yield return new WaitForSeconds(0.5f);
+        isSpliting = false;
+    }
     //private void FixedUpdate()
     //{
     //    Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

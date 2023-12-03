@@ -18,7 +18,6 @@ public class Comet : MonoBehaviour, Iinteractable
     //给变大变小用的，让其他撞击的东西知道当前Comet大小
     [SerializeField] private float CometScale = 1f;
 
-
     [SerializeField] private List<float> SpeedThreshold = new List<float> {2,4};
     [SerializeField] private GameObject trail_1;
     [SerializeField] private GameObject trail_2;
@@ -31,6 +30,8 @@ public class Comet : MonoBehaviour, Iinteractable
     private bool hasTarget = false;
     private bool isRotating = false;
     private bool isTeleport = false;
+    private bool isSelfSpliting = false;
+
 
 
     public void Teleport(Vector3 pos, Vector3 velocity,bool isHorizontal)
@@ -103,18 +104,46 @@ public class Comet : MonoBehaviour, Iinteractable
         //Debug.Log(minx+" "+maxx+" "+miny+" "+maxy);
     }
 
-    //当被点击时，复制Comet。从mousemgr里调用
+    //当被点击时，复制Comet为3个。从mousemgr里调用
     public void SelfSplit()
     {
-
-        //获取Comet物体并实例化
+        //Debug.Log("Split Ready");
+        //有分裂cd，防止重复触发
         GameObject CometObj = Resources.Load<GameObject>("Prefabs/Comet");
-        Instantiate(CometObj);
-        Comet newComet = CometObj.GetComponent<Comet>();
+        GameObject CometObj1 = Instantiate(CometObj, transform.position + Vector3.Cross(CurVelocity,new Vector3(0,0,1)).normalized * 0.5f, transform.rotation);
+        GameObject CometObj2 = Instantiate(CometObj, transform.position - Vector3.Cross(CurVelocity, new Vector3(0,0,1)).normalized * 0.5f, transform.rotation);
+        Comet newComet1 = CometObj1.GetComponent<Comet>();
+        Comet newComet2 = CometObj2.GetComponent<Comet>();
 
         //设置速度
-        newComet.CurVelocity = RotateVector3(CurVelocity, new Vector3(0, 0, 1), 90);
+        newComet1.CurVelocity = RotateVector3(CurVelocity, new Vector3(0, 0, 1), -45);
+        newComet2.CurVelocity = RotateVector3(CurVelocity, new Vector3(0, 0, 1), 45);
+        //设置大小
+        OnDiminish(0.33f);
+        newComet1.OnDiminish(0.33f);
+        newComet1.OnDiminish(0.33f);
+        StartCoroutine(SelfSplitCoroutine(newComet1,newComet2));
+    }
 
+    IEnumerator SelfSplitCoroutine(Comet comet1,Comet comet2)
+    {
+        ////获取Comet物体并实例化
+        //GameObject CometObj = Resources.Load<GameObject>("Prefabs/Comet");
+        //Instantiate(CometObj, transform.position, transform.rotation);
+        //Comet newComet = CometObj.GetComponent<Comet>();
+        isSelfSpliting = true;
+        comet1.isSelfSpliting = true;
+        comet2.isSelfSpliting = true;
+        yield return new WaitForSeconds(1.0f);
+
+        ////设置速度
+        //newComet.CurVelocity = RotateVector3(CurVelocity, new Vector3(0, 0, 1), 90);
+
+        //yield return new WaitForSeconds(0.5f);
+        isSelfSpliting = false;
+        comet1.isSelfSpliting = false;
+        comet2.isSelfSpliting = false;
+        //newComet.isSelfSpliting = false;
     }
 
     //用于vector3旋转
@@ -274,12 +303,20 @@ public class Comet : MonoBehaviour, Iinteractable
 
     private void OnCollisionEnter(Collision collision)
     {
-        Hitable block = collision.gameObject.GetComponent<Hitable>();
+        Hitable block;
+        Comet otherComet;
 
         //现在只要它是需要和球碰撞的，就需要继承Hitable，在里面写一个对应的碰撞函数
-        if (block != null)
+        if ((block = collision.gameObject.GetComponent<Hitable>()) != null)
         {
             block.OnHit(CurVelocity, CurSpeedLevel(), CometScale, collision.GetContact(0).normal, out CurVelocity);
+        }
+        else if ((otherComet = collision.gameObject.GetComponent<Comet>())!=null && !isSelfSpliting)
+        {
+            Debug.Log("Hit Comet");
+            OnEnlarge(1/ otherComet.CometScale);
+            Destroy(otherComet.transform.gameObject);
+            otherComet = null;
         }
         else
         {
@@ -365,7 +402,7 @@ public class Comet : MonoBehaviour, Iinteractable
         return (planet.transform.position - transform.position).magnitude < planet.RangePull;
     }
 
-    #region 道具
+    #region 分裂
 
     //在变大时，Comet加速度减小，但撞击摧毁方块更轻松
     //撞击摧毁方块的效率是通过CometScale来控制的
@@ -380,7 +417,7 @@ public class Comet : MonoBehaviour, Iinteractable
     {
         transform.localScale = transform.localScale / Ratio;
         acc *= Ratio;
-        //CometScale /= Ratio;
+        CometScale /= Ratio;
     }
 
 
